@@ -12,9 +12,6 @@
 						<div class="form-field">
 							<input required class="form-control" type="email" name="email" placeholder="Email..">
 						</div>
-                        <div class="form-field">
-							<input required class="form-control" type="text" name="number" placeholder="Telephone..">
-						</div>
 					</div>
 					
 					<div id="shipping-info">
@@ -68,12 +65,22 @@
 	</div>
 	<script type="text/javascript">
 		var shipping  = '{{order.shipping}}'
+		var total = '{{order.get_cart_total}}'
 		
 		if (shipping == 'False'){
 			document.getElementById('shipping-info').innerHTML = ''
 		}
-		var form = document.getElementById('form')
+		if (user != 'AnonymousUser'){
+            console.log('Current User is : ',user)
+			//document.getElementById('user-info').innerHTML = ''
+        }
+		if (shipping == 'False' && user != 'AnonymousUser'){
+            console.log('Current User is : ',user)
+			document.getElementById('form-wrapper').classList.add('hidden')
+			document.getElementById('payment-info').classList.remove('hidden')
+        }
 
+		var form = document.getElementById('form')
 		form.addEventListener('submit',function(e){
 			e.preventDefault()
 			console.log("form submitted...")
@@ -84,8 +91,57 @@
 		document.getElementById('make-payment').addEventListener('click',function(e){
 			submitFormData()
 		})
+
 		function submitFormData(){
 			console.log('Payment button clicked..')
+
+			var userFormdata = {
+				'name':null,
+				'email':null,
+				'total':total,
+			}
+			var shippingInfo = {
+				'address':null,
+				'city':null,
+				'state':null,
+				'zipcode':null
+			}
+
+			if ( shipping != 'False'){
+				shippingInfo.address = form.address.value; 
+				shippingInfo.city = form.city.value; 
+				shippingInfo.state = form.state.value;
+				shippingInfo.zipcode = form.zipcode.value; 
+				console.log('fuction 1 :',shippingInfo.address,shippingInfo.city,shippingInfo.state,shippingInfo.zipcode)
+			}
+			if ( user != 'AnonymousUser'){
+				userFormdata.name = form.name.value;
+				if (form.city.value == 'undefined'){
+					userFormdata.email = alert("There is some wrong with your email..Please Insert it again")
+				}else{
+					userFormdata.email = form.city.value; 
+				} 
+				console.log('fuction 2 :',userFormdata.name,'Email :',userFormdata.email)
+			}
+
+			var url = '/process_order'/{
+			fetch(url,{
+				method: 'POST'
+				headers:{
+					'Content-Type: 'application/json',
+					'X-CSRFToken': csrftoken,
+					},
+					body: JSON stringify({'form': userFormData, 'shipping':shippingInfo
+					})
+					})
+					.then((response) => resonse.json())
+					.then((data) => {
+					console.log('Success:', data);
+					alert('Transaction complete');
+					window.location.href = "{% url 'store' %}"
+					})
+					}
 		}
+
 	</script>
 {% endblock content %}
