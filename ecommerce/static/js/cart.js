@@ -48,6 +48,3 @@ function updateUserOrder(productId,action){
 
 
 
-
- 
-
