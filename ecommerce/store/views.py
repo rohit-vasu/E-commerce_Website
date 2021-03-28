@@ -1,12 +1,15 @@
-from django.shortcuts import render
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render,redirect
 from django.http import JsonResponse
+from django.contrib import messages
+from .forms import CreateUserForm
+from django.contrib.auth import authenticate,login,logout
 import json
 
 from .models import  *
 
 # Create your views here.
 def store(request):
-
     if request.user.is_authenticated:
         customer =request.user.customer
         order,created = Order.objects.get_or_create(customer=customer,complete=False)
@@ -70,3 +73,28 @@ def updateItem(request):
         orderItem.delete()
 
     return JsonResponse('Item Was added', safe=False)
+
+def registerPage(request):
+    form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            user = form.cleaned_data.get('username')
+            messages.success(request, user + ', Your Account Creation was Successfull..')
+            return redirect('login')
+    context = {'form':form}
+    return render(request, 'store/registerpage.html', context)
+
+def loginPage(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request,username=username,password=password)
+        if user is not None:
+            login(request,user) 
+            return redirect('store')
+        else:
+            messages.info(request,'Username or Password is not Correct')
+    context = {}
+    return render(request, 'store/loginpage.html', context)
