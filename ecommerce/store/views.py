@@ -98,3 +98,7 @@ def loginPage(request):
             messages.info(request,'Username or Password is not Correct')
     context = {}
     return render(request, 'store/loginpage.html', context)
+
+def OurTeam(request):
+    context = {}
+    return render(request, 'store/Our-Team.html', context)
