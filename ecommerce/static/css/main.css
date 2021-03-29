@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 body{
 	background-color: hsl(0, 0%, 98%);
+	min-height: 100hv;
+	display :flex;
+	flex-direction: column;
 }
 
 h1,h2,h3,h4,h5,h6{
@@ -8,7 +11,7 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .box-element{
-	box-shadow:hsl(0, 0%, 80%) 0 0 16px;
+	box-shadow:hsl(0, 29%, 39%) 0 0 16px;
 	background-color: #fff;
 	border-radius: 4px;
 	padding: 10px;

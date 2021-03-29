@@ -20,7 +20,7 @@ ul{
 	list-style: none;
 }
 .footer{
-	position: absolute;
+	min-height: calc(100vh-214px);
 	bottom: 0;
 	right: 0;
 	left: 0;
