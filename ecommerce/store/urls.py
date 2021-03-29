@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.store, name="store"),
-    path('cart/', views.cart, name="cart"),
+    path('cart/', views.cart, name="cart"), 
     path('checkout/', views.checkout, name="checkout"),
     path('OurTeam/', views.OurTeam, name="OurTeam"),
 
@@ -12,6 +12,7 @@ urlpatterns = [
 
     path('register/', views.registerPage , name="register"),
     path('login/', views.loginPage , name="login"),
+    path('product_detail/<str:pk>/', views.productDetail,name="product_detail"),
 
     #password reset urls
     path('reset_password/',auth_views.PasswordResetView.as_view(template_name='store/password_reset.html'),name="reset_password"),
