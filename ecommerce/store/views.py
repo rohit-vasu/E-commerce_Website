@@ -116,3 +116,7 @@ def productDetail(request,pk):
 	product = Product.objects.get(id = pk)
 	context = {'product':product,'cartItems':cartItems}
 	return render(request, 'store/pdp.html', context)
+
+def faq(request):
+	context = {}
+	return render(request, 'store/FAQ.html', context)
