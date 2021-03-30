@@ -120,3 +120,7 @@ def productDetail(request,pk):
 def faq(request):
 	context = {}
 	return render(request, 'store/FAQ.html', context)
+
+def about(request):
+	context = {}
+	return render(request, 'store/AboutUs.html', context)
