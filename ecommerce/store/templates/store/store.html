@@ -2,6 +2,58 @@
 {% load static %}
 
 {% block content %}
+
+<!--Slider -->
+    <div class ="silder-body">
+        <div class="slider">
+            <div class="slides">
+                <input type="radio" name="radio-btn" id="radio1">
+                <input type="radio" name="radio-btn" id="radio2">
+                <input type="radio" name="radio-btn" id="radio3">
+                <input type="radio" name="radio-btn" id="radio4">
+
+                <div class="slide first">
+                    <img src="{% static 'images/cam_ban.jpg' %}" alt="">
+                </div>
+                <div class="slide">
+                    <img src="{% static 'images/cloth_ban.jpg' %}"  alt="">
+                </div>
+                <div class="slide">
+                    <img src="{% static 'images/lpstk_ban.jpg' %}"  alt="">
+                </div>
+                <div class="slide">
+                    <img src="{% static 'images/shoe_ban.jpg' %}"  alt="">
+                </div>
+                <div class="navigation-auto">
+                    <div class="auto-btn1"></div>
+                    <div class="auto-btn1"></div>
+                    <div class="auto-btn1"></div>
+                    <div class="auto-btn1"></div>
+                </div>
+                
+            </div>
+            <!--manual navigtion -->
+            <div class="navigation-manual">
+                <label for="radio1" class="manual-btn"></label>
+                <label for="radio2" class="manual-btn"></label>
+                <label for="radio3" class="manual-btn"></label>
+                <label for="radio4" class="manual-btn"></label>
+            </div>
+        </div>
+        <script type="text/javascript">
+            //javascript for slider 
+            var counter = 1;
+            setInterval(function(){
+                document.getElementById('radio' + counter).checked = true;
+                counter++
+                if(counter > 4){
+                    counter = 1;
+                }
+            }, 5000) 
+        </script>
+    </div>
+
+<!--Slider end -->
     <div class="row">
         {% for product in products %}
         <div class="col-lg-2">
