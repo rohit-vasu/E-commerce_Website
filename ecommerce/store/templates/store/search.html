@@ -3,23 +3,20 @@
 
 {% block content %}
     <div class="row">
-        <div class="col">
-            <div class="cart">
+            <div class="cart thumbnail2">
+                <div class="col">
                 <form action="" method="get">
-                    {{myFilter.form.as_p}}
-                    <button class="btn btn-success" type="submit">Go</button>
-                    <button class="btn btn-outline-secondary add-btn update-cart">Advance</button>
+                    <p>Search : {{myFilter.form.name}}
+                    <button  class="btn btn-success" type="submit">Go</button></p>
+                    <hr>   
+                    <p>Category : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Price : {{myFilter.form.price}}</p>
+                    <p>{{myFilter.form.tags}}</p>
+                    <hr>
                 </form>
-                <ul>
-                    {% for i in filter.qs %}
-                    <li>{{i.name}} </li>
-                    <li>{{i.price}} </li>
-                    <li>{{i.tags}} </li>
-                    {% endfor %}
-                </ul>
             </div>
         </div>
     </div>
+    
     <div class="row">
         {% for product in products %}
         <div class="col-lg-2">
