@@ -5,7 +5,7 @@ from django.contrib import messages
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate,login,logout
 import json
-
+from .filter import ProductFilter
 from .models import  *
 
 # Create your views here.
@@ -124,3 +124,19 @@ def faq(request):
 def about(request):
 	context = {}
 	return render(request, 'store/AboutUs.html', context)
+
+def search(request):
+	if request.user.is_authenticated:
+		customer =request.user.customer
+		order,created = Order.objects.get_or_create(customer=customer,complete=False)
+		items = order.orderitem_set.all()
+		cartItems= order.get_cart_items
+	else:
+		items = []
+		order = {'get_cart_total':0,'get_cart_items':0,'shipping':False}
+		cartItems = order['get_cart_items']
+	products = Product.objects.all()
+	myFilter = ProductFilter(request.GET,queryset=products)
+	products = myFilter.qs
+	context = {'myFilter':myFilter,'products':products,'cartItems':cartItems}
+	return render(request, 'store/search.html', context)

@@ -10,12 +10,19 @@ class Customer(models.Model):
     def __str__(self):
         return self.name
 
+class Tag(models.Model):
+    name = models.CharField(max_length=200,null=True)
+
+    def __str__(self):
+        return self.name
+
 class Product(models.Model):
     name = models.CharField(max_length=200,null=True)
     price = models.FloatField()
     digital = models.BooleanField(default=False,null=True,blank=False)
     featured = models.ImageField(null=True,blank=True)
     description = models.TextField(default="No description available",null=True,blank=False)
+    tags = models.ManyToManyField(Tag)
 
     def __str__(self):
         return self.name
@@ -27,7 +34,7 @@ class Product(models.Model):
         except :
             url = 'images/imagenotfound.png'
         return url
-
+    
 class Image(models.Model):
 	product = models.ForeignKey(Product, on_delete=models.CASCADE)
 	name = models.CharField(max_length=200)

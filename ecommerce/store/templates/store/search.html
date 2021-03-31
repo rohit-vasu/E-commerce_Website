@@ -1,0 +1,39 @@
+{% extends 'store/main.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <div class="cart">
+                <form action="" method="get">
+                    {{myFilter.form.as_p}}
+                    <button class="btn btn-success" type="submit">Go</button>
+                    <button class="btn btn-outline-secondary add-btn update-cart">Advance</button>
+                </form>
+                <ul>
+                    {% for i in filter.qs %}
+                    <li>{{i.name}} </li>
+                    <li>{{i.price}} </li>
+                    <li>{{i.tags}} </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        {% for product in products %}
+        <div class="col-lg-2">
+            <img class="thumbnail" src="{{product.imageURL}}">
+            <div>
+                <h6><strong>{{product.name|truncatechars:40}}</strong></h6>
+                <hr>
+
+                <button data-product={{product.id}} data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add To Cart</button>
+                <a class="btn btn-outline-success" href="{% url 'product_detail' product.id %}">View</a>
+                <h4 style="float:right;"><strong>${{product.price|floatformat:2}}</strong></h4>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
+ 
