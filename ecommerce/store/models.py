@@ -52,6 +52,21 @@ class Image(models.Model):
 		print('URL:', url)
 		return url
 
+class Comment(models.Model):
+    RATING =(('Excellent','Excellent'),
+    ('Very Good','Very Good'),
+    ('Good','Good'),
+    ('Average','Average'),
+    ('Poor','Poor'))
+    product = models.ForeignKey(Product,related_name="comments" ,on_delete=models.CASCADE)
+    name = models.CharField(default="Anomynous",max_length=200)
+    body = models.TextField(default="No description available",null=True,blank=False)
+    date_commented = models.DateTimeField(auto_now_add=True)
+    status = models.TextField(max_length=200,choices=RATING,blank=False)
+
+    def __str__(self):
+        return '%s - %s' % (self.product.name,self.name)
+
 class Order(models.Model):
     customer = models.ForeignKey(Customer,on_delete=models.SET_NULL,blank=True,null=True)
     date_ordered = models.DateTimeField(auto_now_add=True)

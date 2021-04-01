@@ -3,6 +3,7 @@ from django.shortcuts import render,redirect
 from django.http import JsonResponse
 from django.contrib import messages
 from .forms import CreateUserForm
+from .forms import CommentForm
 from django.contrib.auth import authenticate,login,logout
 import json
 from .filter import ProductFilter
@@ -104,6 +105,16 @@ def OurTeam(request):
 	return render(request, 'store/Our-Team.html', context)
 
 def productDetail(request,pk):
+	form = CommentForm()
+	if request.method == 'POST':
+		form = CommentForm(request.POST)
+		form.instance.product = Product.objects.get(id = pk)
+		if form.is_valid():
+			form.save()
+			return redirect(request.path_info)
+		else:
+			messages.info(request,'Error You entered blank Comment')
+			return redirect('store')
 	if request.user.is_authenticated:
 		customer =request.user.customer
 		order,created = Order.objects.get_or_create(customer=customer,complete=False)
@@ -113,8 +124,9 @@ def productDetail(request,pk):
 		items = []
 		order = {'get_cart_total':0,'get_cart_items':0,'shipping':False}
 		cartItems = order['get_cart_items']
+	comments = Comment.objects.all()
 	product = Product.objects.get(id = pk)
-	context = {'product':product,'cartItems':cartItems}
+	context = {'product':product,'cartItems':cartItems,'comments':comments,'form':form}
 	return render(request, 'store/pdp.html', context)
 
 def faq(request):

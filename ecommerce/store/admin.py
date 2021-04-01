@@ -9,7 +9,7 @@ admin.site.register(OrderItem)
 admin.site.register(Shipping)
 admin.site.register(Image)
 admin.site.register(Tag)
-
+admin.site.register(Comment)
 
 
 
