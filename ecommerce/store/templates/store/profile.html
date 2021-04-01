@@ -1,0 +1,18 @@
+{% extends 'store/main.html' %}
+{% load static %}
+
+{% block content %}
+<!--customer.name  email mobile dp Country-->
+<div class="column">
+    <h1>Profile</h1>
+    <hr>
+    <div class="column">
+        <img id="featured" src="{{customer.dpURL}}"> <br><br>
+        <h5><strong>Name  &emsp;&emsp;: {{customer.name}}</strong></h5><br>
+        <h5><strong>Mobile  &emsp;&ensp;: {{customer.mobile}}</strong></h5><br>
+        <h5><strong>Email  &emsp; &emsp;: {{customer.email}}</strong></h5><br>
+        <h5><strong>Country  &emsp;: {{customer.Country}}</strong></h5><br>
+        <br><br><br><br>
+    </div>
+</div>
+{% endblock content %}

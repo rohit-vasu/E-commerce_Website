@@ -6,9 +6,20 @@ class Customer(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,null=True,blank=True)
     name = models.CharField(max_length=200,null=True)
     email = models.CharField(max_length=200,null=True)
+    mobile = models.IntegerField(default=0,null=True,blank=True)
+    dp = models.ImageField(null=True,blank=True)
+    Country = models.CharField(max_length=200,default="N/A",null=True,blank=False)
 
     def __str__(self):
         return self.name
+
+    @property
+    def dpURL(self):
+        try:
+            url = self.dp.url
+        except :
+            url = 'images/avatar.png'
+        return url
 
 class Tag(models.Model):
     name = models.CharField(max_length=200,null=True)

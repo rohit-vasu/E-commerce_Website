@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.contrib import messages
 from .forms import CreateUserForm
 from .forms import CommentForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
 import json
 from .filter import ProductFilter
@@ -103,6 +104,12 @@ def loginPage(request):
 def OurTeam(request):
 	context = {}
 	return render(request, 'store/Our-Team.html', context)
+
+@login_required(login_url = 'login')
+def profile(request,pk):
+	customer = Customer.objects.get(id = pk)
+	context = {'customer': customer}
+	return render(request, 'store/profile.html', context)
 
 def productDetail(request,pk):
 	form = CommentForm()
