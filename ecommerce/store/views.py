@@ -107,8 +107,17 @@ def OurTeam(request):
 
 @login_required(login_url = 'login')
 def profile(request,pk):
+	if request.user.is_authenticated:
+		customer =request.user.customer
+		order,created = Order.objects.get_or_create(customer=customer,complete=False)
+		items = order.orderitem_set.all()
+		cartItems= order.get_cart_items
+	else:
+		items = []
+		order = {'get_cart_total':0,'get_cart_items':0,'shipping':False}
+		cartItems = order['get_cart_items']
 	customer = Customer.objects.get(id = pk)
-	context = {'customer': customer}
+	context = {'customer': customer,'cartItems':cartItems}
 	return render(request, 'store/profile.html', context)
 
 def productDetail(request,pk):
@@ -131,9 +140,9 @@ def productDetail(request,pk):
 		items = []
 		order = {'get_cart_total':0,'get_cart_items':0,'shipping':False}
 		cartItems = order['get_cart_items']
-	comments = Comment.objects.all()
+	#comments = Comment.objects.all()
 	product = Product.objects.get(id = pk)
-	context = {'product':product,'cartItems':cartItems,'comments':comments,'form':form}
+	context = {'product':product,'cartItems':cartItems,'form':form}
 	return render(request, 'store/pdp.html', context)
 
 def faq(request):

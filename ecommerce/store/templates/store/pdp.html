@@ -39,16 +39,22 @@
             <br><br>
             <h4>Comments on this Product..</h4>
             <hr>
-            {% for comment in comments %}
-                    <strong>
-                        {{comment.name}} -
-                        {{comment.date_commented}} 
-                    </strong>
-                    <p style="color:#0099ff";>Product Rating : {{comment.status}}</p>
-                    {{comment.body}}
-                    <br>
-                    <hr>
-            {% endfor %}
+            {% if not product.comments.all %}
+                No Comments Yet... 
+                <br>
+                <hr>
+            {% else %}
+                {% for comment in product.comments.all %}
+                        <strong>
+                            {{comment.name}} -
+                            {{comment.date_commented}} 
+                        </strong>
+                        <p style="color:#0099ff";>Product Rating : {{comment.status}}</p>
+                        {{comment.body}}
+                        <br>
+                        <hr>
+                {% endfor %}
+            {% endif %}
         </div>
         <div>
             <h6>Add Comment..</h6>
