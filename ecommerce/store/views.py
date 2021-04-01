@@ -22,8 +22,10 @@ def store(request):
 		order = {'get_cart_total':0,'get_cart_items':0}
 		cartItems = order['get_cart_items']
 
-	products = Product.objects.all()
-	context = {'products':products,'cartItems':cartItems,'shipping':False}
+	hotproducts = Product.objects.filter(tags__name="Hot")
+	tddproducts = Product.objects.filter(tags__name="Today's Deals")
+	ltpproducts = Product.objects.filter(tags__name="Limited Time Offers")
+	context = {'hotproducts':hotproducts,'ltpproducts':ltpproducts,'tddproducts':tddproducts,'cartItems':cartItems,'shipping':False}
 	return render(request, 'store/store.html', context)
 
 def cart(request):

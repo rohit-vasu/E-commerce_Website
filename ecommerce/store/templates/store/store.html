@@ -55,8 +55,43 @@
 
 <!--Slider end -->
     <h3><span class="badge badge-pill badge-danger">Hot</span></h3>
+
     <div class="row">
-        {% for product in products %}
+        {% for product in hotproducts %}
+        <div class="col-lg-2">
+            <img class="thumbnail" src="{{product.imageURL}}">
+            <div>
+                <h6><strong>{{product.name|truncatechars:40}}</strong></h6>
+                <hr>
+
+                <button data-product={{product.id}} data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add To Cart</button>
+                <a class="btn btn-outline-success" href="{% url 'product_detail' product.id %}">View</a>
+                <h4 style="float:right;"><strong>${{product.price|floatformat:2}}</strong></h4>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h3><span class="badge badge-pill badge-warning">Limited Time Offers</span></h3>
+    <div class="row">
+        {% for product in ltpproducts %}
+        <div class="col-lg-2">
+            <img class="thumbnail" src="{{product.imageURL}}">
+            <div>
+                <h6><strong>{{product.name|truncatechars:40}}</strong></h6>
+                <hr>
+
+                <button data-product={{product.id}} data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add To Cart</button>
+                <a class="btn btn-outline-success" href="{% url 'product_detail' product.id %}">View</a>
+                <h4 style="float:right;"><strong>${{product.price|floatformat:2}}</strong></h4>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h3><span class="badge badge-pill badge-dark">Today's Deals</span></h3>
+    <div class="row">
+        {% for product in tddproducts %}
         <div class="col-lg-2">
             <img class="thumbnail" src="{{product.imageURL}}">
             <div>
