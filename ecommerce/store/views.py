@@ -11,7 +11,7 @@ from .filter import ProductFilter
 from .models import  *
 
 # Create your views here.
-def store(request):
+def authUser(request):
 	if request.user.is_authenticated:
 		customer =request.user.customer
 		order,created = Order.objects.get_or_create(customer=customer,complete=False)
@@ -21,7 +21,11 @@ def store(request):
 		items = []
 		order = {'get_cart_total':0,'get_cart_items':0}
 		cartItems = order['get_cart_items']
+	return {'cartItems':cartItems,'items':items,'order':order}
 
+def store(request):
+	allitems =	authUser(request)
+	cartItems = allitems['cartItems']
 	hotproducts = Product.objects.filter(tags__name="Hot")
 	tddproducts = Product.objects.filter(tags__name="Today's Deals")
 	ltpproducts = Product.objects.filter(tags__name="Limited Time Offers")
@@ -29,30 +33,18 @@ def store(request):
 	return render(request, 'store/store.html', context)
 
 def cart(request):
-	if request.user.is_authenticated:
-		customer =request.user.customer
-		order,created = Order.objects.get_or_create(customer=customer,complete=False)
-		items = order.orderitem_set.all()
-		cartItems= order.get_cart_items
-	else:
-		items = []
-		order = {'get_cart_total':0,'get_cart_items':0,'shipping':False}
-		cartItems = order['get_cart_items']
-
+	allitems =	authUser(request)
+	items = allitems['items']
+	order = allitems['order']
+	cartItems = allitems['cartItems']
 	context = {'items':items,'order':order,'cartItems':cartItems}
 	return render(request, 'store/cart.html', context)
 
 def checkout(request):
-	if request.user.is_authenticated:
-		customer =request.user.customer
-		order,created = Order.objects.get_or_create(customer=customer,complete=False)
-		items = order.orderitem_set.all()
-		cartItems= order.get_cart_items
-	else:
-		items = []
-		order = {'get_cart_total':0,'get_cart_items':0,'shipping':False}
-		cartItems = order['get_cart_items']
-
+	allitems =	authUser(request)
+	items = allitems['items']
+	order = allitems['order']
+	cartItems = allitems['cartItems']
 	context = {'items':items,'order':order,'cartItems':cartItems}
 	return render(request, 'store/checkout.html', context)
 
@@ -109,15 +101,8 @@ def OurTeam(request):
 
 @login_required(login_url = 'login')
 def profile(request,pk):
-	if request.user.is_authenticated:
-		customer =request.user.customer
-		order,created = Order.objects.get_or_create(customer=customer,complete=False)
-		items = order.orderitem_set.all()
-		cartItems= order.get_cart_items
-	else:
-		items = []
-		order = {'get_cart_total':0,'get_cart_items':0,'shipping':False}
-		cartItems = order['get_cart_items']
+	allitems =	authUser(request)
+	cartItems = allitems['cartItems']
 	customer = Customer.objects.get(id = pk)
 	context = {'customer': customer,'cartItems':cartItems}
 	return render(request, 'store/profile.html', context)
@@ -133,15 +118,8 @@ def productDetail(request,pk):
 		else:
 			messages.info(request,'Error You entered blank Comment')
 			return redirect('store')
-	if request.user.is_authenticated:
-		customer =request.user.customer
-		order,created = Order.objects.get_or_create(customer=customer,complete=False)
-		items = order.orderitem_set.all()
-		cartItems= order.get_cart_items
-	else:
-		items = []
-		order = {'get_cart_total':0,'get_cart_items':0,'shipping':False}
-		cartItems = order['get_cart_items']
+	allitems =	authUser(request)
+	cartItems = allitems['cartItems']
 	#comments = Comment.objects.all()
 	product = Product.objects.get(id = pk)
 	context = {'product':product,'cartItems':cartItems,'form':form}
@@ -156,15 +134,8 @@ def about(request):
 	return render(request, 'store/AboutUs.html', context)
 
 def search(request):
-	if request.user.is_authenticated:
-		customer =request.user.customer
-		order,created = Order.objects.get_or_create(customer=customer,complete=False)
-		items = order.orderitem_set.all()
-		cartItems= order.get_cart_items
-	else:
-		items = []
-		order = {'get_cart_total':0,'get_cart_items':0,'shipping':False}
-		cartItems = order['get_cart_items']
+	allitems =	authUser(request)
+	cartItems = allitems['cartItems']
 	products = Product.objects.all()
 	myFilter = ProductFilter(request.GET,queryset=products)
 	products = myFilter.qs
