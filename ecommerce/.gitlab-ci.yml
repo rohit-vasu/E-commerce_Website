@@ -1,0 +1,9 @@
+stages:
+  - test
+sonarqube_master_job:
+  stage: test
+  script:
+    - mkdir out
+    - javac $(find . -name "*.java") -d out
+    - export ENCRYPT_KEY=`echo $CI_PROJECT_URL.git | md5sum | cut -d' ' -f1`
+    - /opt/sonar-scanner-4.3/bin/sonar-scanner -Dsonar.java.binaries=out -Dsonar.sources=. -Dsonar.projectKey=p$ENCRYPT_KEY
